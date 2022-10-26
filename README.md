@@ -7,7 +7,7 @@
 - Define `function expression`
 - Define `anonymous function`
 - Define a function using a function expression
-- Define an IIFE: `Immediately-Invoked Function Expression`
+- Define an IIFE: `Instantly-Invoked Function Expression`
 - Define `function-level scope`
 - Define `scope chain`
 - Define `closure`
@@ -57,11 +57,11 @@ function razzle() {
 }
 ```
 
-Functions can be passed arguments, given default arguments, etc. Here's a
+Functions can be passed arguments, given default arguments, etc.  Here's a
 brief code synopsis:
 
 ```js
-function razzle(lawyer = "Billy", target = "'em") {
+function razzle(lawyer="Billy", target="'em") {
   console.log(`${lawyer} razzle-dazzles ${target}!`);
 }
 razzle(); //=> Billy razzle-dazzles 'em!
@@ -71,8 +71,8 @@ razzle("Methuselah", "T'challah"); //=> Methuselah razzle-dazzles T'challah!
 **LAB**: Implement a function called `saturdayFun`. It should return a `String`
 like `"This Saturday, I want to ....!"` Fill in the `...` with the activity
 that's passed in as the first parameter. If nothing is passed in, default to
-`"roller-skate"`. Run `learn test` to verify you've gotten the first set of
-tests passing before continuing with the lesson.
+`"roller-skate"`. Run `learn` to verify you've gotten the first set of tests
+passing before continuing with the lesson.
 
 ## Define `Hoisting`
 
@@ -111,13 +111,13 @@ Uncaught SyntaxError: Function statements require a function name
 The problem is that, when the function expression appears by itself as shown
 above, **JavaScript does not recognize it as a function expression**; it instead
 interprets it as a function declaration that's missing its name. One way to tell
-the JavaScript engine that it's a function expression is to use the
-`grouping operator ()` to wrap the entire thing:
+the JavaScript engine that it's a function expression is to use the `grouping
+operator ()` to wrap the entire thing:
 
 ```js
-(function () {
+(function() {
   console.log("Yet more razzling");
-});
+})
 ```
 
 Recall that the grouping operator is usually used in arithmetic operations to
@@ -155,8 +155,8 @@ a callback function. For example, you'll often see anonymous functions passed as
 an argument to an event listener:
 
 ```js
-const button = document.getElementById("button");
-button.addEventListener("click", function () {
+const button = document.getElementById('button');
+button.addEventListener('click', function() {
   console.log("Yet more razzling");
 });
 ```
@@ -172,9 +172,9 @@ declaring a variable and assigning the function as its value. Recall that any
 expression can be assigned to a variable; this includes function expressions:
 
 ```js
-const fn = function () {
+const fn = function() {
   console.log("Yet more razzling");
-};
+}
 ```
 
 The code above defines our function using a function expression. If we ask
@@ -190,9 +190,9 @@ to _invoke_ or _call_ the function. We do this by adding `()` to the end of our
 "pointer", the variable name:
 
 ```js
-const fn = function () {
+const fn = function() {
   console.log("Yet more razzling");
-}; //=> undefined
+} //=> undefined
 fn; //=> ƒ () { console.log("Yet more razzling") }
 fn(); // "Yet more razzling"
 ```
@@ -201,34 +201,32 @@ Also as with a function declaration, if we need to pass arguments to the
 function, we would include those in the parentheses when we call the function.
 
 We now know how to define a function as a function expression. Very importantly,
-**_function expressions are not hoisted_**. The same is true for any variable
+***function expressions are not hoisted***. The same is true for any variable
 assignment: if we assign a `String` or the result of an arithmetic expression to
 a variable, those assignments are not hoisted either.
 
 **LAB**: Implement a function expression called `mondayWork`. The function
 should return a `String` like `"This Monday, I will ... ."` Fill in the `...`
 with the activity that's passed in as the first parameter. If nothing is passed
-in, default to `"go to the office"`. Run `learn test` to verify you've gotten
-this set of tests passing before continuing with the lesson.
+in, default to `"go to the office"`. Run `learn` to verify you've gotten this
+set of tests passing before continuing with the lesson.
 
-## Define an IIFE: Immediately-Invoked Function Expression
+## Define an IIFE: Instantly-Invoked Function Expression
 
 Another way to invoke an anonymous function is by creating what's known as an
-`immediately-invoked function expression (IIFE)`.
+`instantly-invoked function expression (IIFE)`.
 
 As a thought experiment, consider what happens here:
 
 ```js
-(function (baseNumber) {
-  return baseNumber + 3;
-})(2); //=> ???
+(function(baseNumber){ return baseNumber + 3 })(2); //=> ???
 ```
 
 We recognize the first `()` as the grouping operator that tells the JavaScript
 engine to interpret the contents as a value — in this case, a function
 expression. What this means is that, in the IIFE statement, the value returned
 by the first set of parentheses is an anonymous function, which can be invoked
-(immediately).
+(instantly).
 
 The second `()` are the `()` of function invocation. When we put them
 immediately after the first set of parentheses, we're invoking the function that
@@ -236,9 +234,7 @@ those parentheses return immediately after defining it. Try it out in the
 browser console:
 
 ```js
-(function (baseNumber) {
-  return baseNumber + 3;
-})(2); //=> 5
+(function(baseNumber){ return baseNumber + 3; })(2); //=> 5
 ```
 
 Interestingly, any variables, functions, `Array`s, etc. that are defined
@@ -264,12 +260,10 @@ start by seeing it in action.
 Consider this code:
 
 ```js
-function outer(greeting, msg = "It's a fine day to learn") {
-  // 2
-  const innerFunction = function (name, lang = "Python") {
-    // 3
+function outer(greeting, msg="It's a fine day to learn") { // 2
+  const innerFunction =  function(name, lang="Python") { // 3
     return `${greeting}, ${name}! ${msg} ${lang}`; // 4
-  };
+  }
   return innerFunction("student", "JavaScript"); // 5
 }
 
@@ -287,7 +281,7 @@ Let's break this down:
    default value of `"Python"`. The function expression itself is saved in the
    local variable `innerFunction`.
 4. Inside `innerFunction` we make use of its parameters, `name` and `lang`,
-   **_as well as_** the `greeting` and `msg` parameters defined in
+   ***as well as*** the `greeting` and `msg` parameters defined in
    innerFunction's containing (parent) function, `outer`. `innerFunction` has
    access to those variables via the scope chain.
 5. Finally, inside `outer`, we invoke `innerFunction`, passing arguments that
@@ -305,10 +299,10 @@ return the result of calling `innerFunction`, let's have it return the function
 itself:
 
 ```js
-function outer(greeting, msg = "It's a fine day to learn") {
-  const innerFunction = function (name, lang = "Python") {
+function outer(greeting, msg="It's a fine day to learn") {
+  const innerFunction =  function(name, lang="Python") {
     return `${greeting}, ${name}! ${msg} ${lang}`;
-  };
+  }
   return innerFunction;
 }
 ```
@@ -337,7 +331,7 @@ storedFunction("student", "JavaScript");
 ```
 
 Note that we are no longer calling `innerFunction` from inside `outer`.
-Amazingly, the code works **_exactly the same_**: it **_still_** has access to
+Amazingly, the code works ***exactly the same***: it ***still*** has access to
 those parent function's variables. It's like a little wormhole in space-time to
 the `outer`'s scope!
 
@@ -346,13 +340,13 @@ expression to `innerFunction` and returning that, let's just return the function
 expression.
 
 ```js
-function outer(greeting, msg = "It's a fine day to learn") {
-  return function (name, lang = "Python") {
+function outer(greeting, msg="It's a fine day to learn") {
+  return function(name, lang="Python") {
     return `${greeting}, ${name}! ${msg} ${lang}`;
-  };
+  }
 }
 
-outer("Hello")("student", "JavaScript");
+outer("Hello")("student", "JavaScript")
 //=> "Hello, student! It's a fine day to learn JavaScript"
 ```
 
@@ -372,8 +366,8 @@ parentheses and passing the arguments `"student"` and `"JavaScript"`, which were
 stored in `name` and `lang`. This filled in the final two values inside of the
 template string and returned:
 
-```js
-"Hello, student! It's a fine day to learn JavaScript";
+```bash
+"Hello, student! It's a fine day to learn JavaScript"
 ```
 
 ## Define `Closure`
@@ -388,32 +382,30 @@ wanted to let just tiny bits of information leak back out, we might want to
 pass that information back out, through a closure.
 
 ```js
-const array = (function (thingToAdd) {
-  const base = 3;
-  return [
-    function () {
-      return base + thingToAdd;
-    },
-    function () {
-      return base;
-    },
-  ];
-})(2);
+const array = (
+  function(thingToAdd) {
+    const base = 3;
+    return [
+      function() { return base + thingToAdd; },
+      function() { return base; }
+    ];
+  }
+)(2)
 ```
 
 Note that the value on the right of the `=` in the first line is a function
 expression. That function takes a single argument and returns an array that
 contains two functions. The `(2)` after the function expression executes that
-function (immediately), and the two inner functions are stored in the `array`
+function (instantly), and the two inner functions are stored in the `array`
 variable.
 
 Go ahead and copy the code above into your browser console and take a look at the
 values of the two elements of `array`. You should see the following:
 
-```js
+ ```js
 array[0]; //=> ƒ () { return base + thingToAdd; }
 array[1]; //=> ƒ () { return base; }
-```
+ ```
 
 However, if you try looking at the value of `base` in the console you'll get a
 reference error: the value of `base` is not accessible outside the function it's
@@ -438,16 +430,16 @@ parent (and grandparent) scopes' variables. Here's a simple example:
 
 ```js
 function demoChain(name) {
-  const part1 = "hi";
-  return function () {
-    const part2 = "there";
-    return function () {
+  const part1 = 'hi'
+  return function() {
+    const part2 = 'there'
+    return function() { 
       console.log(`${part1.toUpperCase()} ${part2} ${name}`);
-    };
-  };
+    }
+  }
 }
 
-demoChain("Dr. Stephen Strange")()(); //=> HI there Dr. Stephen Strange
+demoChain("Dr. Stephen Strange")()() //=> HI there Dr. Stephen Strange
 ```
 
 When it is called, the innermost function has access to `name`, `part1`, and
@@ -457,37 +449,26 @@ space-time magic!
 
 **LAB**:
 
-Implement a function called `saturdayFun`:
-
-- It should define a function.
-- It uses a default argument, `'roller-skate'` when no arguments are passed.
-  - It allows the default argument to be overridden.
-
-Implement a function called `mondayWork`:
-
-- It should define a function.
-- It uses a default argument, `'go to the office'` when no arguments are passed.
-  - It allows the default argument to be overridden.
-
 Implement a function called `wrapAdjective`:
 
-- It should return a function. This "inner" function should:
-  - take a single parameter that should default to `"special"`. Name it
-    however you wish.
-  - return a `String` of the form "You are ...!" where `...` should be the
-    adjective this function received wrapped in visual flair.
-- It should take as parameter a `String` that will be used to create visual flair.
+- It should return a function
+  - This "inner" function should:
+    - take a single parameter that should default to `"special"`. Name it
+      however you wish.
+    - return a `String` of the form "You are ..." where `...` should be the
+      adjective this function received wrapped in visual flair
+- It should take as parameter a `String` that will be used to create visual flair
 - You may call the parameter whatever you like, but its default value should
-  be `"*"`.
+  be `"*"`
 - Call example: `const encouragingPromptFunction = wrapAdjective("!!!")`
 
 Thus a total call should be:
 
 ```js
-wrapAdjective("%")("a dedicated programmer"); //=> "You are %a dedicated programmer%!"
+wrapAdjective("%")("a dedicated programmer") //=> "You are %a dedicated programmer%!"
 ```
 
-Run `learn test` to verify you've gotten this set of tests passing.
+Run `learn` to verify you've gotten this set of tests passing.
 
 ## Conclusion
 
